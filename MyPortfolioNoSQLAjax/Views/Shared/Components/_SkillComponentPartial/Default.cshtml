@@ -1,0 +1,52 @@
+﻿
+@{
+    var skill1 = ViewBag.skill1 as IEnumerable<Skill>;
+    var skill2 = ViewBag.skill2 as IEnumerable<Skill>;
+
+}
+
+
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                <h1 class="display-5 mb-5">Yetkinlik ve Tecrübelerim</h1>
+                <p class="mb-4">Sahip olduğum bazı yetkinlikler ...</p>
+
+
+                <h3 class="mb-4">Yetenekler</h3>
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+
+            @foreach(var item in skill1)
+            {
+                <div class="skill mb-4">
+                    <div class="d-flex justify-content-between">
+                        <h6 class="font-weight-bold">@item.Title</h6>
+                        <h6 class="font-weight-bold">@item.Points %</h6>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="@item.Points" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            }
+           
+                    
+                    </div>
+                    <div class="col-md-6">
+
+            @foreach(var item in skill2)
+            {
+                   
+            <div class="skill mb-4">
+                            <div class="d-flex justify-content-between">
+                                <h6 class="font-weight-bold">@item.Title</h6>
+                                <h6 class="font-weight-bold">@item.Points %</h6>
+                            </div>
+                            <div class="progress">
+                        <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="@item.Points" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+            }
+                 
+                    </div>
+                </div>
+            </div>
+  

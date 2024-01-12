@@ -1,0 +1,23 @@
+﻿@model Contact
+
+@{
+    ViewData["Title"] = "CreateContact";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<br />
+<div class="container">
+    <form method="post">
+        <label>Adres</label>
+        <input type="text" asp-for="Address" class="form-control" />
+        <br />
+        <label>Telefon Num</label>
+        <input type="text" asp-for="Phone" class="form-control" />
+        <br />
+        <label>E-Posta</label>
+        <input type="text" asp-for="Mail" class="form-control" />
+        <br />
+       
+        <button class="btn btn-outline-success">Ekle</button>
+    </form>
+</div>

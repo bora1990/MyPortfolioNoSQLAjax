@@ -1,0 +1,66 @@
+﻿
+@model Contact
+
+<div class="container-xxl pb-5" id="contact">
+    <div class="container py-5">
+        <div class="row g-5 mb-5 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="col-lg-6">
+                <h1 class="display-5 mb-0">İşbirliği yapalım ...</h1>
+            </div>
+           
+        </div>
+        <div class="row g-5">
+            <div class="col-lg-5 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                <p class="mb-2">Adresim:</p>
+                <h3 class="fw-bold">@Model.Address</h3>
+                <hr class="w-100">
+                <p class="mb-2">Numaram :</p>
+                <h3 class="fw-bold">@Model.Phone</h3>
+                <hr class="w-100">
+                <p class="mb-2">Mail:</p>
+                <h3 class="fw-bold">@Model.Mail</h3>
+                <hr class="w-100">
+                <p class="mb-2">Takip Et</p>
+                <div class="d-flex pt-2">
+                 
+                    <a class="btn btn-square btn-primary me-2" href="https://github.com/bora1990"><i class="fab fa-github"></i></a>
+                    <a class="btn btn-square btn-primary me-2" href="https://www.linkedin.com/in/bora-bayuk-126339228/"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-7 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                <p class="mb-4">Görüşleriniz benim için değerli .</p>
+                <form method="post" asp-action="AddMessage" asp-controller="Message" asp-area="Admin" >
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" name="NameSurname" placeholder="İsminiz">
+                                <label for="name">Your Name</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="email" class="form-control" name="Mail" placeholder="E-Posta">
+                                <label for="email">Your Email</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" name="Subject" placeholder="Konu">
+                                <label for="subject">Subject</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Leave a message here" name="MessageContent" style="height: 100px"></textarea>
+                                <label for="message">Mesaj</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-primary py-3 px-5" type="submit">Mesaj Gönder</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

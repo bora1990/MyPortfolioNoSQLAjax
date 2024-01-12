@@ -1,0 +1,257 @@
+﻿@using MyPortfolioNoSQLAjax.Areas.Admin.Models
+
+@model ProfileViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<div class="container">
+    <br />
+    <h2>Operasyonlar</h2>
+
+    <button type="button" id="btnProfilelist" class="btn btn-outline-primary"><i class="fa-solid fa-list"></i>Profil Listesi</button>
+    <a data-toggle="modal" id="Guncelle" href="#myModal" class="btn btn-outline-secondary "><i class="fa-solid fa-file-import"></i>Profil Ekleme Ekranı</a>
+    <a data-toggle="modal" id="Ekle" href="#yourModal" class="btn btn-outline-info "><i class="fa-solid fa-pen-to-square"></i>Profil Güncelleme Ekranı</a>
+    <a data-toggle="modal" id="Sil" href="#deleteModal" class="btn btn-outline-dark "><span class="pcoded-micon"><i class="fa-solid fa-trash"></i></span>Profil Silme Ekranı</a>
+
+</div>
+<br />
+
+
+<div id="Profilelist">
+</div>
+
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+            </div>
+            <div class="modal-body">
+
+                <input type="text" class="form-control" placeholder="İsim Soyisim" id="isim" style="border:1px solid #000" />
+                <br />
+                <input type="text" class="form-control" placeholder="Resim" id="resim" style="border:1px solid #000" />
+                <br />
+                <input type="text" class="form-control" placeholder="Başlık" id="baslik" style="border:1px solid #000" />
+                <br />
+                <input type="text" class="form-control" placeholder="AltBaşlık" id="altbaslik" style="border:1px solid #000" />
+                <br />
+                <button type="button" id="btnProfileCreate" class="btn btn-outline-info">Profil Oluştur</button>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="yourModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+            </div>
+            <div class="modal-body">
+
+                <label for="Id1">Profil Id Seç:</label>
+                <select id="Id1" name="ProfileDropdown" class="form-control">
+                    <option value="">Select a Profile</option>
+                    @foreach (var item in Model.Items)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+                <br />
+         
+                <input type="text" class="form-control" placeholder="İsim Soyisim" id="isim1" style="border:1px solid #000" />
+                <br />
+           
+                <input type="text" class="form-control" placeholder="Resim" id="resim1" style="border:1px solid #000" />
+                <br />
+               
+                <input type="text" class="form-control" placeholder="Başlık" id="baslik1" style="border:1px solid #000" />
+                <br />
+               
+                <input type="text" class="form-control" placeholder="AltBaşlık" id="altbaslik1" style="border:1px solid #000" />
+                <br />
+                <button type="button" id="btnProfileUpdate" class="btn btn-outline-info">Profil Güncelle</button>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+            </div>
+            <div class="modal-body">
+                <label for="Id2">Profil Id'ye karşılık isim Seç:</label>
+                <select id="Id2" name="ProfileDropdown" class="form-control">
+                    <option value="">Profil Seç</option>
+                    @foreach (var item in Model.Items)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+
+                <br />
+                <button type="button" id="btnProfileSil" class="btn btn-outline-info">Profil Sil</button>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+<script>
+    $("#btnProfilelist").click( () => {
+        $.ajax({
+            contentType: "application/json",
+            dataType: "json",
+            type: "Get",
+            url: "/Admin/Profile/ProfileList/",
+            success: (funk1) => {
+                let values = jQuery.parseJSON(funk1);
+                console.log(values);
+                let tablehtml = `
+                                            <table class=table table-bordered>
+                                            <tr>
+                                            <th>Profil ID</th>
+                                            <th>İsim Soyisim</th>
+                                            <th>Resim</th>
+                                            <th>Başlık</td>
+                                            <th>Alt Başlık</td>
+                                            </tr>`
+                $.each(values, (index, value) => {
+                    tablehtml += `
+                                                <tr>
+                                                <td>${value.ProfileID}</td>
+                                                        <td>${value.NameSurname}</td>
+                                                        <td>${value.ImageUrl}</td>
+                                                        <td>${value.Title1}</td>
+                                                            <td>${value.Title2}</td>
+                                                </tr>`
+                });
+
+                tablehtml += `
+                                            </table>`;
+                $("#Profilelist").html(tablehtml);
+            }
+        });
+    });
+
+
+    $("#btnProfileCreate").click(() => {
+
+        let profileValues = {
+
+            NameSurname: $("#isim").val(),
+            ImageUrl: $("#resim").val(),
+            Title1: $("#baslik").val(),
+            Title2: $("#altbaslik").val()
+        };
+
+        let serviceValues = {
+
+            Title: $("#title1").val(),
+            Description: $("#description1").val(),
+            Icon: $("#ikon1").val()
+        };
+
+
+        console.log('gelenData:/n', profileValues);
+        $.ajax({
+            type: "post",
+            url: "/Admin/Profile/CreateProfile/",
+            data: profileValues,  //
+            success: (funk2) => {    /* başarılı olursa dönen değeri JSON formatından JS formatına çevirir */
+                console.log("gelen data:\n", funk2);
+                let result = jQuery.parseJSON(funk2);
+                alert("Veriler Eklendi");
+
+            },
+
+        });
+    });
+
+
+
+    $("#btnProfileUpdate").click(function () {
+        
+        let values = {
+            ProfileID: $("#Id1").val(),
+            NameSurname: $("#isim1").val(),
+            ImageUrl: $("#resim1").val(),
+            Title1: $("#baslik1").val(),
+            Title2: $("#altbaslik1").val()
+        };
+        console.log("gelenData/n",values);
+        $.ajax({
+            type: "post",
+            url: "/Admin/Profile/UpdateProfile/",
+            data: values,
+            dataType: 'json',
+            success: (funk) => {
+
+                console.log("gelen data:\n", funk);
+                // Sunucudan gelen veriyi JSON olarak çözümle
+                // let result = jQuery.parseJSON(funk);
+                Swal.fire({
+                    title: 'Tebrikler!',
+                    text: 'Hizmet başarıyla Güncellendi',
+                    icon: 'success',
+                    showCancelButton: false,
+                    confirmButtonText: 'Tamam',
+                    cancelButtonText: 'İptal'
+                });
+            },
+        });
+    });
+
+
+
+    $("#btnProfileSil").click(function () {
+        let id = $("#Id2").val();
+        $.ajax({
+            url: "/Admin/Profile/DeleteProfile/" + id,
+            type: "Get",
+            contentType: "application/json",
+            success: function (funk4) {
+                Swal.fire({
+                    title: 'Tebrikler!',
+                    text: 'Profil başarıyla silindi',
+                    icon: 'success',
+                    showCancelButton: false,
+                    confirmButtonText: 'Tamam',
+                    cancelButtonText: 'İptal'
+                });
+            }
+        });
+
+    });
+
+
+</script>

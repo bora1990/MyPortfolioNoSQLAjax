@@ -1,0 +1,236 @@
+﻿@using MyPortfolioNoSQLAjax.Areas.Admin.Models
+
+@model EducationViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<div class="container">
+    <br />
+    <h2>Operasyonlar</h2>
+
+    <button type="button" id="btneducationlist" class="btn btn-outline-primary"><i class="fa-solid fa-list"></i>Eğitim Listesi</button>
+    <a data-toggle="modal" id="Guncelle" href="#myModal" class="btn btn-outline-secondary "><i class="fa-solid fa-file-import"></i>Eğitim Ekleme Ekranı</a>
+    <a data-toggle="modal" id="Ekle" href="#yourModal" class="btn btn-outline-info "><i class="fa-solid fa-pen-to-square"></i>Eğitim Güncelleme Ekranı</a>
+    <a data-toggle="modal" id="Sil" href="#deleteModal" class="btn btn-outline-dark "><span class="pcoded-micon"><i class="fa-solid fa-trash"></i></span>Eğitim Silme Ekranı</a>
+
+</div>
+<br />
+
+
+<div id="educationlist">
+</div>
+
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+            </div>
+            <div class="modal-body">
+
+                <input type="text" class="form-control" placeholder="Başlık" id="title1" style="border:1px solid #000" />
+                <br />
+                <input type="text" class="form-control" placeholder="Zaman Aralığı" id="time1" style="border:1px solid #000" />
+                <br />
+                <input type="text" class="form-control" placeholder="Okul" id="school1" style="border:1px solid #000" />
+                <br />
+                <button type="button" id="btnEducationCreate" class="btn btn-outline-info">Eğitim Oluştur</button>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="yourModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+            </div>
+            <div class="modal-body">
+
+                <label for="Id2">Eğitim Id Seç:</label>
+                <select id="Id2" name="educationDropdown" class="form-control">
+                    <option value="">Select a education</option>
+                    @foreach (var item in Model.Items)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+                <br />
+                <input type="text" class="form-control" placeholder="Title" id="title2" style="border:1px solid #000" />
+                <br />
+                <input type="text" class="form-control" placeholder="Zaman Aralığı" id="time2" style="border:1px solid #000" />
+                <br />
+                <input type="text" class="form-control" placeholder="Okul" id="school2" style="border:1px solid #000" />
+                <br />
+                <button type="button" id="btnEducationUpdate" class="btn btn-outline-info">Eğitim Güncelle</button>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+            </div>
+            <div class="modal-body">
+                <label for="Id3">Servis Id Seç:</label>
+                <select id="Id3" name="educationDropdown" class="form-control">
+                    <option value="">Servis Seç</option>
+                    @foreach (var item in Model.Items)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+                <br />
+
+                <button type="button" id="btnEducationSil" class="btn btn-outline-info">Servis Sil</button>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+<script>
+
+    $("#btneducationlist").click(function () {
+        $.ajax({
+            contentType: "application/json",
+            dataType: "json",
+            type: "Get",
+            url: "/Admin/Education/EducationList/",
+            success: (funk1) => {
+                let values = jQuery.parseJSON(funk1);
+                console.log(values);
+                let tablehtml = `
+                                        <table class=table table-bordered>
+                                        <tr>
+                                            <th>Eğitim ID</th>
+                                            <th>Eğitim Başlık</th>
+                                            <th>Zaman</th>
+                                            <th>Okul Adı</td>
+                                        </tr>`
+                $.each(values, (index, value) => {
+                    tablehtml += `
+                                            <tr>
+                                                <td>${value.EducationID}</td>
+                                                    <td>${value.Title}</td>
+                                                    <td>${value.Time}</td>
+                                                    <td>${value.School}</td>
+                                            </tr>`
+                });
+
+                tablehtml += `
+                                        </table>`;
+                $("#educationlist").html(tablehtml);
+            }
+        });
+    });
+
+
+    $("#btnEducationCreate").click(() => {
+        let educationValues = {
+
+            Title: $("#title1").val(),
+            Time: $("#time1").val(),
+            School: $("#school1").val()
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/Admin/Education/CreateEducation/",
+            data: educationValues,  //
+            success: (response) => {    /* başarılı olursa dönen değeri JSON formatından JS formatına çevirir */
+                console.log("gelen data:\n", response);
+                let result = jQuery.parseJSON(response);
+                alert("Veriler Eklendi");
+
+            },
+
+        });
+    });
+
+
+
+    $("#btnEducationUpdate").click(function () {
+
+        let values = {
+            EducationID: $("#Id2").val(),
+            Title: $("#title2").val(),
+            Time: $("#time2").val(),
+            School: $("#school2").val()
+        };
+        console.log(values);
+        $.ajax({
+            type: "POST",
+            url: "/Admin/Education/UpdateEducation/",
+            data: values,
+            dataType: 'json',
+            success: (funk) => {
+
+                console.log("gelen data:\n", funk);
+                // Sunucudan gelen veriyi JSON olarak çözümle
+                let result = jQuery.parseJSON(funk);
+                Swal.fire({
+                    title: 'Tebrikler!',
+                    text: 'Tecrübe başarıyla güncellendi',
+                    icon: 'success',
+                    showCancelButton: false,
+                    confirmButtonText: 'Tamam',
+                    cancelButtonText: 'İptal'
+                });
+            },
+        });
+    });
+
+
+
+    $("#btnEducationSil").click(function () {
+        let id = $("#Id3").val();
+        $.ajax({
+            url: "/Admin/Education/DeleteEducation/" + id,
+            type: "Get",
+            contentType: "application/json",
+            success: function (funk4) {
+                Swal.fire({
+                    title: 'Tebrikler!',
+                    text: 'Eğitim başarıyla silindi',
+                    icon: 'success',
+                    showCancelButton: false,
+                    confirmButtonText: 'Tamam',
+                    cancelButtonText: 'İptal'
+                });
+            }
+        });
+
+    });
+
+
+</script>

@@ -1,0 +1,30 @@
+﻿
+
+@model About
+
+@{
+    ViewData["Title"] = "CreateAbout";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<br />
+<div class="container">
+    <form method="post">
+        <label>Başlık</label>
+        <input type="text" asp-for="Title" class="form-control" />
+        <br />
+        <label>Açıklama</label>
+        <input type="text" asp-for="Description" class="form-control" />
+        <br />
+        <label>Teknoloji1</label>
+        <input type="text" asp-for="Kind1" class="form-control" />
+        <br />
+        <label>Teknoloji2</label>
+        <input type="text" asp-for="Kind2" class="form-control" />
+        <br />
+        <label>Teknoloji3</label>
+        <input type="text" asp-for="Kind3" class="form-control" />
+        <br />
+        <button class="btn btn-outline-success">Ekle</button>
+    </form>
+</div>

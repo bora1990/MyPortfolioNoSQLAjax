@@ -1,0 +1,34 @@
+﻿ 
+
+@model About
+
+@{
+    ViewData["Title"] = "UpdateAbout";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+
+<div class="container">
+    <form method="post">
+
+        <input type="hidden" asp-for="AboutID" class="form-control" />
+        <br />
+        <label>Tamamlanan Proje</label>
+        <input type="text" asp-for="Title" class="form-control" />
+        <br />
+        <label>Proje Sayısı</label>
+        <input type="text" asp-for="Description" class="form-control" />
+        <br />
+        <label>Devam Eden Proje</label>
+        <input type="text" asp-for="Kind1" class="form-control" />
+        <br />
+        <label>Proje Sayısı</label>
+        <input type="text" asp-for="Kind2" class="form-control" />
+        <br />
+        <label>Proje Sayısı</label>
+        <input type="text" asp-for="Kind3" class="form-control" />
+        <br />
+        <button class="btn btn-outline-success">Güncelle</button>
+    </form>
+</div>
+

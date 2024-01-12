@@ -1,0 +1,244 @@
+﻿@using MyPortfolioNoSQLAjax.Areas.Admin.Models
+
+@model ServiceViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+   
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<div class="container">
+    <br />
+    <h2>Operasyonlar</h2>
+
+    <button type="button" id="btnservicelist" class="btn btn-outline-primary"><i class="fa-solid fa-list"></i>Hizmet Listesi</button>
+    <a data-toggle="modal" id="Guncelle" href="#myModal" class="btn btn-outline-secondary "><i class="fa-solid fa-file-import"></i>Hizmet Ekleme Ekranı</a>
+    <a data-toggle="modal" id="Ekle" href="#yourModal" class="btn btn-outline-info "><i class="fa-solid fa-pen-to-square"></i>Hizmet Güncelleme Ekranı</a>
+    <a data-toggle="modal" id="Sil" href="#deleteModal" class="btn btn-outline-dark "><span class="pcoded-micon"><i class="fa-solid fa-trash"></i></span>Hizmet Silme Ekranı</a>
+
+</div>
+<br />
+
+
+<div id="servicelist">
+
+
+
+</div>
+
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              
+            </div>
+            <div class="modal-body">
+                
+                    <input type="text" class="form-control" placeholder="Başlık" id="title1" style="border:1px solid #000" />
+                    <br />
+                    <input type="text" class="form-control" placeholder="Açıklama" id="description1" style="border:1px solid #000" />
+                    <br />
+                    <input type="text" class="form-control" placeholder="Ikon" id="ikon1" style="border:1px solid #000" />
+                <br />
+                    <button type="button" id="btnServiceCreate" class="btn btn-outline-info">Hizmet Oluştur</button>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="yourModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+            </div>
+            <div class="modal-body">
+
+                <label for="Id2">Servis Id Seç:</label>
+                <select id="Id2" name="serviceDropdown" class="form-control">
+                    <option value="">Select a service</option>
+                    @foreach (var item in Model.Items)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+                <br />
+                <input type="text" class="form-control" placeholder="Başlık" id="title2" style="border:1px solid #000" />
+                <br />
+                <input type="text" class="form-control" placeholder="Açıklama" id="description2" style="border:1px solid #000" />
+                <br />
+                <input type="text" class="form-control" placeholder="Ikon" id="ikon2" style="border:1px solid #000" />
+                <br />
+                <button type="button" id="btnServiceUpdate" class="btn btn-outline-info">Servis Güncelle</button>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+            </div>
+            <div class="modal-body">
+                <label for="Id3">Servis Id Seç:</label>
+                <select id="Id3" name="serviceDropdown" class="form-control">
+                    <option value="">Servis Seç</option>
+                    @foreach (var item in Model.Items)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+                <br />
+          
+                <button type="button" id="btnServiceSil" class="btn btn-outline-info">Servis Sil</button>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+<script>
+    $("#btnservicelist").click(function () {
+        $.ajax({
+            contentType: "application/json",
+            dataType: "json",
+            type: "Get",
+            url: "/Admin/Service/ServiceList/",
+            success:  (funk1)=> {
+                let values = jQuery.parseJSON(funk1);
+                console.log(values);
+                let tablehtml = `
+                                    <table class=table table-bordered>
+                                    <tr>
+                                    <th>Hizmet ID</th>
+                                    <th>Hizmet Başlık</th>
+                                    <th>Açıklama</th>
+                                    <th>İkon</td>
+                                    </tr>`
+                $.each(values, (index, value) => {
+                    tablehtml += `
+                                        <tr>
+                                        <td>${value.ServiceID}</td>
+                                            <td>${value.Title}</td>
+                                            <td>${value.Description}</td>
+                                            <td>${value.Icon}</td>
+                                        </tr>`
+                });
+
+                tablehtml += `
+                                    </table>`;
+                $("#servicelist").html(tablehtml);
+            }
+        });
+    });
+
+
+    $("#btnServiceCreate").click(() => {
+        let serviceValues = {
+        
+            Title: $("#title1").val(),
+            Description: $("#description1").val(),
+            Icon: $("#ikon1").val()
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/Admin/Service/CreateService/",
+            data: serviceValues,  //
+            success: (response) => {    /* başarılı olursa dönen değeri JSON formatından JS formatına çevirir */
+                console.log("gelen data:\n", response);
+                let result = jQuery.parseJSON(response);
+                alert("Veriler Eklendi");
+
+            },
+         
+        });
+    });
+
+
+
+    $("#btnServiceUpdate").click(function () {
+
+        let values = {
+
+            ServiceID: $("#Id2").val(),
+            Title: $("#title2").val(),
+            Description: $("#description2").val(),
+            Icon: $("#ikon2").val()
+        };
+        console.log(values);
+        $.ajax({
+            type: "POST",
+            url: "/Admin/Service/UpdateService/",
+            data: values,
+            dataType: 'json',
+            success: (funk) => {
+                console.log("gelen data:\n", funk);
+                // let result = jQuery.parseJSON(funk);
+                // console.log("parse dan sonra sonuc :", result);
+                Swal.fire({
+                    title: 'Tebrikler!',
+                    text: 'Hizmet başarıyla Güncellendi',
+                    icon: 'success',
+                    showCancelButton: false,
+                    confirmButtonText: 'Tamam',
+                    cancelButtonText: 'İptal'
+                });
+
+
+                // 
+                //     // Sunucudan gelen veriyi JSON olarak çözümle
+                // 
+                //     alert(" Veriler Güncellendi");           
+            },
+        });
+    });
+
+
+
+    $("#btnServiceSil").click(function () {
+        let id = $("#Id3").val();
+        $.ajax({
+            url: "/Admin/Service/DeleteService/" + id,
+            type: "Get",
+            contentType: "application/json",
+            success: function (funk4) {
+                Swal.fire({
+                    title: 'Tebrikler!',
+                    text: 'Hizmet başarıyla silindi',
+                    icon: 'success',
+                    showCancelButton: false,
+                    confirmButtonText: 'Tamam',
+                    cancelButtonText: 'İptal'
+                });
+            }
+        });
+
+    });
+
+
+</script>
