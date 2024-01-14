@@ -24,9 +24,6 @@ namespace MyPortfolioNoSQLAjax.Areas.Admin.Controllers
             var values = await _messageCollection.Find(x => true).ToListAsync();  //mongo kolksiyondaki tüm belgeler HERHANGİ BİR FİLTRELEME YOK
             return View(values);
         }
-        [HttpPost]
-
-
 
         [HttpPost]
 
@@ -35,9 +32,13 @@ namespace MyPortfolioNoSQLAjax.Areas.Admin.Controllers
             await _messageCollection.InsertOneAsync(message);   
 
             return RedirectToAction("Index");
-    }
+        }
+        public async Task<IActionResult> DeleteMessage(string id)
+        {
+             await _messageCollection.DeleteOneAsync(x=>x.MessageID == id);
+            return RedirectToAction("Index");
 
-
+        }
 
     }
 }

@@ -33,7 +33,7 @@
 					<td>@item.Mail</td>
 					<td>@item.Subject</td>
 					<td>@item.MessageContent</td>
-					<td><a href="#" onclick="return mesajSil('@item.MessageID')" class="btn btn-outline-danger">Sil</a></td>
+					<td><a href="/Admin/Message/DeleteMessage/@item.MessageID"  class="btn btn-outline-danger">Sil</a></td>
 					<td><a href="#"  class="btn btn-outline-info"><i class="fas fa-comment"></i>Arşivle</a></td>
 				</tr>
 			}
@@ -45,19 +45,3 @@
 	}
 </div>
 
-<script>
-	function mesajSil(id) {
-		Swal.fire({
-			title: 'Emin misiniz?',
-			text: 'Son kararınız mı?',
-			icon: 'warning',
-			showCancelButton: true,
-			confirmButtonText: 'Sil',
-			cancelButtonText: 'İptal'
-		}).then((result) => {
-			if (result.isConfirmed) {
-				window.location.href = "/Message/DeleteMessage?id=" + id;
-			}
-		});
-	}
-</script>
