@@ -18,9 +18,9 @@ Silme için Id ye Karşılık gelen name seçilir.
 ![portfolio-11](https://github.com/bora1990/MyPortfolioNoSQLAjax/assets/99908441/a7035ad6-33c2-4019-9912-9fced5d51f30)  
 Güncelleme için Id ye Karşılık gelen name seçilir.
 ![portfolio-9](https://github.com/bora1990/MyPortfolioNoSQLAjax/assets/99908441/93ac148c-f5b2-48ec-8064-a497d1fcd566)
-Veri Ekleme
-![portfolyo-12](https://github.com/bora1990/MyPortfolioNoSQLAjax/assets/99908441/340679d6-ba5e-464a-b7bf-f68d9d270d24)
 
+![portfolyo-12](https://github.com/bora1990/MyPortfolioNoSQLAjax/assets/99908441/340679d6-ba5e-464a-b7bf-f68d9d270d24)
+Veri Ekleme
 ![portfolio-8](https://github.com/bora1990/MyPortfolioNoSQLAjax/assets/99908441/3a05822a-d8e8-44ae-b59e-300e11c8d847)  
 ![portfolio-7](https://github.com/bora1990/MyPortfolioNoSQLAjax/assets/99908441/87168657-2016-4855-99c5-02fc96f84494)   
 
